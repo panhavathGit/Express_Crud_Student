@@ -85,8 +85,23 @@ export const updateStudent = (request,response)=>{
 }
 
 export const deleteStudent = (request,response) =>{
-    
-
-
+    const id = request.params.id
+    const sql = "Delete from student where id = ?";
+    pool.query(sql,[id],(error,result)=>{
+        if(error){
+            console.log(error);
+            return response.status(500).json({
+                message : "an error occured"
+            });
+        }
+        if(result.affectedRows == 0){
+            return response.status(404).json({
+                message : "student not found!"
+            })
+        }
+        return response.status(200).json({
+            message : "Student deleted successfully"
+        })
+    })
 
 }
